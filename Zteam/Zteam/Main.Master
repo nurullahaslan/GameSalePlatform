@@ -1,0 +1,264 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.Master.cs" Inherits="Zteam.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Zteam | Store</title>
+
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- START: Styles -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- FontAwesome -->
+    <script defer src="assets/vendor/fontawesome-free/js/all.js"></script>
+    <script defer src="assets/vendor/fontawesome-free/js/v4-shims.js"></script>
+
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="assets/vendor/ionicons/css/ionicons.min.css">
+
+    <!-- Flickity -->
+    <link rel="stylesheet" href="assets/vendor/flickity/dist/flickity.min.css">
+
+    <!-- Photoswipe -->
+    <link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/photoswipe.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/default-skin/default-skin.css">
+
+    <!-- Seiyria Bootstrap Slider -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+
+    <!-- Summernote -->
+    <link rel="stylesheet" type="text/css" href="assets/vendor/summernote/dist/summernote-bs4.css">
+
+    <!-- GoodGames -->
+    <link rel="stylesheet" href="assets/css/goodgames.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- END: Styles -->
+
+    <!-- jQuery -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <header class="nk-header nk-header-opaque">
+
+
+
+                <!-- START: Top Contacts --> 
+                <div class="nk-contacts-top">
+                    <div class="container">
+                        <div class="nk-contacts-left">
+                            <ul class="nk-social-links">
+                                <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
+                                <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
+                                <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
+                                <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
+                                <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a></li>
+                                <li><a class="nk-social-twitter" href="https://twitter.com/nkdevv" target="_blank"><span class="fab fa-twitter"></span></a></li>
+                                <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
+
+
+                            </ul>
+                        </div>
+                        <div class="nk-contacts-right">
+                            <ul class="nk-contacts-icons">
+
+                                <asp:SqlDataSource ID="ProfileDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GAMES_SALES_PLATFORMConnectionString %>" SelectCommand="SELECT [KULLANICI_ID], [ADI], [EMAIL], [SIFRE] , [FOTOGRAF] , [BAKIYE] FROM [KULLANICI] WHERE ([KULLANICI_ID] = @KULLANICI_ID)">
+                                    <SelectParameters>
+                                        <asp:SessionParameter Name="KULLANICI_ID" SessionField="KULLANICI_ID" Type="Int32" />
+                                    </SelectParameters>
+                                </asp:SqlDataSource>
+                                <li>
+                                    <a id="notLoggedIn" href="Login.aspx" runat="server">
+                                        <span class="fa fa-user"></span>
+                                    </a>
+                                    <asp:FormView ID="FormView1" runat="server" DataSourceID="ProfileDataSource1" DataKeyNames="KULLANICI_ID">
+                                        <ItemTemplate>
+                                            <span class="nk-cart-toggle">
+                                                <span class="fa fa-user"></span>
+                                            </span>
+                                            <div class="nk-cart-dropdown">
+
+                                                <div class="nk-widget-post">
+                                                    <a href="Profile.aspx" class="nk-post-image">
+                                                        <img src="<%#Eval("FOTOGRAF") %>" width="100px" height="100px">
+                                                    </a>
+                                                    <h3 class="nk-post-title">
+                                                        <a href="Profile.aspx"><%# Eval("ADI") %></a>
+                                                    </h3>
+                                                    <div class="nk-gap-1"></div>
+                                                    <div class="nk-product-price">Balance: $ <%# Eval("BAKIYE") %></div>
+                                                </div>
+
+
+
+                                                <div class="nk-gap-2"></div>
+                                                <div class="text-center">
+                                                    <a href="Profile.aspx" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white">Edit Profile</a>
+                                                    <asp:Button ID="Button1" href="#" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-white" runat="server" OnClick="btnLogOut_Click" Text="Sign Out" />
+
+                                                </div>
+                                            </div>
+
+                                        </ItemTemplate>
+                                    </asp:FormView>
+                                </li>
+
+
+                                <li>
+                                    <a href="Cart.aspx" runat="server">
+                                        <span class="fa fa-shopping-cart"></span>
+                                    </a>
+                                    
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: Top Contacts -->
+
+
+
+                <!--START: Navbar -->
+                <nav class="nk-navbar nk-navbar-top nk-navbar-sticky nk-navbar-autohide">
+                    <div class="container">
+                        <div class="nk-nav-table">
+
+                            <a href="Store.aspx" class="nk-nav-logo">
+                                <img src="assets/images/logol.png" alt="Zteam" width="199">
+                            </a>
+                            
+                        </div>
+                    </div>
+                </nav>
+                <!-- END: Navbar -->
+
+            </header>
+
+
+        <div class="nk-main">
+
+
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+    <!-- START: Footer -->
+    <footer class="nk-footer">
+
+
+        <div class="nk-gap-3"></div>
+
+        <div class="nk-copyright">
+            <div class="container">
+                <div class="nk-copyright-left">
+                    Copyright &copy; 2018 <a href="#" target="_blank">MNA</a>
+                </div>
+                <div class="nk-copyright-right">
+                    <ul class="nk-social-links-2">
+                        <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
+                        <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
+                        <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
+                        <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
+                        <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a></li>
+                        <li><a class="nk-social-twitter" href="#" target="_blank"><span class="fab fa-twitter"></span></a></li>
+                        <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- END: Footer -->
+
+    <!-- START: Page Background -->
+
+    <img class="nk-page-background-top" src="assets/images/bg-top-4.png" alt="">
+    <img class="nk-page-background-bottom" src="assets/images/bg-bottom.png" alt="">
+
+    <!-- END: Page Background -->
+
+
+    <!-- START: Scripts -->
+
+    <!-- Object Fit Polyfill -->
+    <script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
+
+    <!-- GSAP -->
+    <script src="assets/vendor/gsap/src/minified/TweenMax.min.js"></script>
+    <script src="assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js"></script>
+
+    <!-- Popper -->
+    <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Sticky Kit -->
+    <script src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script>
+
+    <!-- Jarallax -->
+    <script src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
+    <script src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script>
+
+    <!-- imagesLoaded -->
+    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+
+    <!-- Flickity -->
+    <script src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script>
+
+    <!-- Photoswipe -->
+    <script src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
+    <script src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script>
+
+    <!-- Jquery Validation -->
+    <script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <!-- Jquery Countdown + Moment -->
+    <script src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
+    <script src="assets/vendor/moment/min/moment.min.js"></script>
+    <script src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+
+    <!-- Hammer.js -->
+    <script src="assets/vendor/hammerjs/hammer.min.js"></script>
+
+    <!-- NanoSroller -->
+    <script src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
+
+    <!-- SoundManager2 -->
+    <script src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
+
+    <!-- Seiyria Bootstrap Slider -->
+    <script src="assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+
+    <!-- Summernote -->
+    <script src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script>
+
+    <!-- nK Share -->
+    <script src="assets/plugins/nk-share/nk-share.js"></script>
+
+    <!-- GoodGames -->
+    <script src="assets/js/goodgames.min.js"></script>
+    <script src="assets/js/goodgames-init.js"></script>
+    <!-- END: Scripts -->
+
+</body>
+</html>
